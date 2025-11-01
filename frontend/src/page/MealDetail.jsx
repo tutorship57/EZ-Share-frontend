@@ -5,7 +5,7 @@ import AssignModal from '../components/AssignModal';
 import { useAuth } from '../contextProvider/AuthProvider';
 import {getAllMenu} from '../functions/menuManage';
 import {getAllGuest} from '../functions/guestManage';
-import {createMenuShare,getAllMenuShareInfo} from '../functions/menuShareManage';
+import {createMenuShare,getAllMenuShareInfo,getParticipantSummarySplit} from '../functions/menuShareManage';
 import {getAllTripGuests} from '../functions/tripGuestManage';
 import { twoStepTryFetchWithId,twoStepTryFetch,twoStepTryFetchCustom } from '../services/apiCallwithToken';
 const MealDetail = () => {
@@ -18,32 +18,34 @@ const MealDetail = () => {
     const [participantName, setParticipantName] = useState('');
     const [participantGuests, setParticipantGuests] = useState([]);
     const [tripGuests, setTripGuests] = useState([]);
-    const [menuShareInfo, setMenuShareInfo] = useState([]);
     const Navigate = useNavigate()
     const {tripId,mealId} = useParams()
     const {accessToken,setAccessToken} = useAuth();
-    const [currentMeal, setCurrentMeal] = useState(
-    [{
-      menuItems: [
-        { id: "item_001", name: "Pizza", price: 12.5 },
-        { id: "item_002", name: "Burger", price: 8.0 },
-        { id: "item_003", name: "Salad", price: 10.0 }
-      ],
-      participants: [
-        { id: "p1", name: "Alice" },
-        { id: "p2", name: "Bob" },
-        { id: "p3", name: "Charlie" }
-      ],
-      assignments: {
-        "item_001": ["p1", "p3"],
-        "item_002": ["p2"],
-        "item_003": []
-      }
-    }
-    ]);
+    const [currentMeal, setCurrentMeal] = useState([]);
+    const [split, setSplit] = useState({});
+    // useState(
+    // [{
+    //   menuItems: [
+    //     { id: "item_001", name: "Pizza", price: 12.5 },
+    //     { id: "item_002", name: "Burger", price: 8.0 },
+    //     { id: "item_003", name: "Salad", price: 10.0 }
+    //   ],
+    //   participants: [
+    //     { id: "p1", name: "Alice" },
+    //     { id: "p2", name: "Bob" },
+    //     { id: "p3", name: "Charlie" }
+    //   ],
+    //   assignments: {
+    //     "item_001": ["p1", "p3"],
+    //     "item_002": ["p2"],
+    //     "item_003": []
+    //   }
+    // }
+    // ]);
     
 
 
+    
 
     const fetchMenu = async () => {
         try {
@@ -90,7 +92,18 @@ const MealDetail = () => {
         const respondMenuShareInfo = await twoStepTryFetchWithId(mealId,getAllMenuShareInfo,accessToken,setAccessToken)
         if(respondMenuShareInfo.status===200){
           console.log(respondMenuShareInfo)
-          setMenuShareInfo(respondMenuShareInfo.data.menuShareInfo)
+          setCurrentMeal(respondMenuShareInfo.data.menuShareInfo)
+        }
+      }catch(error){
+        console.log("this is error:",error)
+      }
+    }
+    const fetchParticipantSummarySplit =async () => {
+      try{
+        const responseSummarySplit = await twoStepTryFetchWithId(mealId,getParticipantSummarySplit,accessToken,setAccessToken)
+        if(responseSummarySplit.status===200){
+          console.log("this is responseSummarySplit:",responseSummarySplit)
+          setSplit(responseSummarySplit.data.participantSummarySplit)
         }
       }catch(error){
         console.log("this is error:",error)
@@ -104,6 +117,9 @@ const MealDetail = () => {
     },[])
     useEffect(()=>{
       fetchMenuShareInfo()
+    },[])
+    useEffect(()=>{
+      fetchParticipantSummarySplit()
     },[])
     const handleAddParticipant = (e) => {
       e.preventDefault();
@@ -290,16 +306,16 @@ const MealDetail = () => {
                   
                   <div className="space-y-4 text-gray-700">
                     {currentMeal[0]?.menuItems.map(item => {
-                      const assignedParticipants = currentMeal[0].assignments[item.id] || [];
+                      const assignedParticipants = currentMeal[0].assignments[item.menu_id] || [];
                       const assignedNames = assignedParticipants.map(pid => 
-                        currentMeal[0].participants.find(p => p.id === pid)?.name
+                        currentMeal[0].participants.find(p => p.guest_id === pid)?.guest_name
                       ).filter(Boolean);
                       return (
                         <div key={item.id} className="bg-gray-50 rounded-lg p-4">
                           <div className="flex justify-between items-start mb-2">
                             <div>
-                              <h3 className="font-medium">{item.name}</h3>
-                              <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                              <h3 className="font-medium">{item.menu_name}</h3>
+                              <p className="text-gray-600">${item.amount.toFixed(2)}</p>
                             </div>
                             <button
                               onClick={() => openAssignModal(item)}
@@ -313,7 +329,7 @@ const MealDetail = () => {
                             <div className="flex flex-wrap gap-2">
                               {assignedNames.map((name, idx) => (
                                 <span key={idx} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm">
-                                  {name} (${(item.price / assignedNames.length).toFixed(2)})
+                                  {name} (${(item.amount / assignedNames.length).toFixed(2)})
                                 </span>
                               ))}
                             </div>
@@ -328,17 +344,17 @@ const MealDetail = () => {
               )}
 
               {activeTab === 'summary' && (
-                <div>
-                  <h2 className="text-xl font-semibold mb-6">Bill Summary</h2>
+                <div >
+                  <h2 className="text-xl font-semibold mb-6 text-gray-800 mt-1">Bill Summary</h2>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
                     {Object.values(split).map(person => (
                       <div key={person.name} className="bg-gray-50 rounded-lg p-6">
                         <h3 className="font-semibold text-lg mb-4">{person.name}</h3>
                         <div className="space-y-2 mb-4">
-                          {person.items.map((item, idx) => (
+                          {person.menuItems.map((item, idx) => (
                             <div key={idx} className="flex justify-between text-sm">
-                              <span>{item.name}</span>
+                              <span>{item.menu_name}</span>
                               <span>${item.amount.toFixed(2)}</span>
                             </div>
                           ))}

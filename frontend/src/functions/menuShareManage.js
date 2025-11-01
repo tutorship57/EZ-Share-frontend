@@ -20,3 +20,9 @@ export const getAllMenuShareInfo = async (mealId, accessToken) => {
         headers: { Authorization: `Bearer ${accessToken}` }
     })
 }
+
+export const getParticipantSummarySplit = async ( mealId, accessToken) => {
+    return await axios.get(import.meta.env.VITE_API_BASE_URL+`/api/menuShare/${mealId}/getParticipantSummarySplit`, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+    })
+}
