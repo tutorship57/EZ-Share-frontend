@@ -13,10 +13,12 @@ import CreateGuest from "./page/CreateGuest";
 import CreateMeal from "./page/CreateMeal";
 import SelectTripGuest from "./page/SelectTripGuest";
 import CreateMenu from "./page/CreateMenu";
-
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
+    
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Navigate to="/SignIn" />} />
         <Route path="/SignIn" element={<Login/>} />

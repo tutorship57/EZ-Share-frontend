@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router';
 import { useAuth } from '../contextProvider/AuthProvider';
 import { ensureToken } from '../utils/checkToken';
 import { fetchAccessToken } from '../functions/accessTokenFetch';
+import { twoStepTryFetch } from '../services/apiCallwithToken';
+import toastifyService from '../services/toastifyService';
 const CreateTripModal = ({ onClose }) => {
   const [formData, setFormData] = useState({ name: '', description: '', date: '' })
   const { accessToken, setAccessToken } = useAuth()
@@ -12,42 +14,40 @@ const CreateTripModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     if (!accessToken) {
       navigate('/SignIn');
       return;
     }
-  
     const payload = {
       tripName: formData.name,
       description: formData.description,
       date: formData.date,
     };
-  
     try {
-      // ลองยิงครั้งแรก
-      await createTrip(payload, accessToken);
-      navigate('/User/Dashboard');
+      const responseCreateTrip = await toastifyService.promise(
+        twoStepTryFetch(createTrip, payload, accessToken, setAccessToken),
+        {
+          pending: 'Creating your trip...',
+          success: 'Trip Created Successfully !'
+        }
+      );
+      return navigate('/User/Dashboard');
+
     } catch (err) {
-      // ถ้า token หมดอายุ → refresh แล้ว retry
-      const newToken = await ensureToken(accessToken, setAccessToken);
-      if (!newToken) {
-        navigate('/SignIn');
-        return;
+      console.log('Create Trip Error:', err);
+      if(err.response.status ===401){
+        toastifyService.errorOption(401);
+        return navigate('/SignIn');
       }
-      setAccessToken(newToken)
-      try {
-        await createTrip(payload, newToken);
-        navigate('/User/Dashboard');
-      } catch (err2) {
-        console.error("Create trip failed after refresh", err2);
-        navigate('/SignIn');
+      if(err.response.status ===403){
+        toastifyService.errorOption(403);
+        return navigate('/SignIn');
       }
+      toastifyService.error(500);
+      return navigate('/User/Dashboard');
     }
   };
-  
-  
-
     return (
       <div className="fixed inset-0 text-gray-600 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
         <div className="bg-white rounded-xl p-6 w-full max-w-md">

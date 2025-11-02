@@ -2,7 +2,10 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate,useParams } from 'react-router';
 import { Plus, Users,Calendar,Utensils, Calculator, Receipt, LogIn, UserPlus, Home, Menu as MenuIcon, X, Trash2, Edit3 } from 'lucide-react';
 import { createMenu } from '../functions/menuManage';
+import { twoStepTryFetchCustom } from '../services/apiCallwithToken';
 import { useAuth } from '../contextProvider/AuthProvider';
+import toastifyService from '../services/toastifyService';
+
 const AddMenuModal = ({onClose}) => {
     const {accessToken,setAccessToken} = useAuth()
     const {mealId,tripId} = useParams();
@@ -22,14 +25,24 @@ const AddMenuModal = ({onClose}) => {
         amount:parseInt(formData.amount),
       }
       try {
-        const res = await createMenu(mealId,payload,accessToken);
-        if(res.status===200){
-          Navigate(`/User/DashBoard/TripDetail/${tripId}/MealDetail/${mealId}`)
-          return
-        }
+        const responseCreateMenu = await toastifyService.promise(
+          twoStepTryFetchCustom(createMenu,accessToken,setAccessToken,mealId,payload),
+        )
+        Navigate(`/User/DashBoard/TripDetail/${tripId}/MealDetail/${mealId}`)
+        return ;
+        
       } catch (error) {
-        console.log(error)
-      }
+        if(error.response.status ===401){
+          toastifyService.errorOption(401);
+          return Navigate('/SignIn');
+        }
+        if(error.response.status ===403){
+          toastifyService.errorOption(403);
+          return Navigate('/SignIn');
+        }
+        toastifyService.errorOption(500);
+        Navigate(`/User/DashBoard/TripDetail/${tripId}/MealDetail/${mealId}`)
+      }  
     }
   return (
      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">

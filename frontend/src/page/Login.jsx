@@ -3,6 +3,7 @@ import { Plus, Users, Calculator,Calendar, Receipt, LogIn, UserPlus, Home, Menu 
 import { login,register,usefetchToken } from '../functions/login';
 import { useAuth } from '../contextProvider/AuthProvider';
 import { useNavigate } from 'react-router';
+import toastifyService from '../services/toastifyService';
 import Cookies from 'universal-cookie';
 
 const LoginPage = () => {
@@ -20,25 +21,35 @@ const LoginPage = () => {
     }
     };
     const handleLogin = async (email,password)=>{
-        const cookies = new Cookies(null, { path: '/' });
-        cookies.set('myCat', 'Pacman');
         const newData = {email,password};
-        // const responsefromFetch = await usefetchToken(newData)
-        // const res = responsefromFetch.json()
-        const response = await login(newData);
-        console.log(response)
-        console.log(response.data.accessToken)
-        if(response.status===200){
+        try {
+            const respondLogin = await toastifyService.promise(
+            login(newData),
+            {   pending:'pending',
+                success:'Login Successful !',
+                error:'Login Failed Please Try Again'
+            })
             console.log("doing navigate ??")
-            setAccessToken(response.data.accessToken)
-            // client
+            setAccessToken(respondLogin.data.accessToken)
             Navigate('/User/DashBoard')
+        } catch (error) {
+            console.log("Login Error",error)
         }
-
     }
     const handleRegister = async (name,email,password)=>{
         const newData = {username:name,email,password}
-        const response = await register(newData)
+        try{
+            const responseRegister = await toastifyService.promise(
+            register(newData),
+            {
+                pending:'Creating your account...',
+                success:'Account Created Successfully !',
+                error:'Account Creation Failed Please Try Again'
+            })
+            setIsLogin(!isLogin);
+        }catch(err){
+            console.log("Register Error",err)
+        }
     }
 
     return (
@@ -48,7 +59,7 @@ const LoginPage = () => {
             <div className="bg-indigo-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Receipt className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">SplitEase</h1>
+            <h1 className="text-3xl font-bold text-gray-800">EZ-Share</h1>
             <p className="text-gray-600 mt-2">Split bills with friends easily</p>
         </div>
 

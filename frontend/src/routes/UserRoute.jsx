@@ -14,8 +14,8 @@ const UserRoute = () => {
         try {
             console.log("this is accessToken",accessToken)
             const resUserProfile = await twoStepTryFetch(getUserProfile,{},accessToken,setAccessToken)
-            console.log("this is resUserProfile",resUserProfile.data.data.userProfile)
-            setUserProfile(resUserProfile.data.data.userProfile)
+            console.log("this is resUserProfile",resUserProfile.data.userProfile)
+            setUserProfile(resUserProfile.data.userProfile)
 
            
         } catch (error) {

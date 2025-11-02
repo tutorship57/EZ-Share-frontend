@@ -6,6 +6,8 @@ import { useAuth } from '../contextProvider/AuthProvider';
 import { fetchAccessToken} from '../functions/accessTokenFetch';
 import { getAllTripGuests } from '../functions/tripGuestManage';
 import { ensureToken } from '../utils/checkToken';
+import toastifyService from '../services/toastifyService';
+import { twoStepTryFetchCustom, twoStepTryFetchWithId } from '../services/apiCallwithToken';
 const CreateMealModal = ({ onClose }) => {
       const {accessToken, setAccessToken} = useAuth()
       const {id} = useParams();
@@ -22,68 +24,40 @@ const CreateMealModal = ({ onClose }) => {
             }
             async function fetchTrips() {
               try {
-                const tripGuestRes = await getAllTripGuests(id,accessToken);
-                console.log('Guest Response:', guestRes.data);
-                console.log('Trip Guest Response:', tripGuestRes.data);
-                setTripGuest(tripGuestRes.data.tripGuests);
+                const responseTripGuest = await twoStepTryFetchWithId(id,getAllTripGuests,accessToken,setAccessToken);
+                setTripGuest(responseTripGuest.data.tripGuests);
                 return;
               }
               catch (err) {
-                console.error(err);
+                console.log("Fetch Trip Guests Error:", err);
               }
-      
-              try{
-                const res = await fetchAccessToken(accessToken)
-                setAccessToken(res.data.accessToken)
-                
-              }
-              catch(err){
-                
-              }
-              try {
-                const tripGuestRes = await getAllTripGuests(id,accessToken);
-                console.log('Response:', tripGuestRes.data);
-                setTripGuest(tripGuestRes.data.tripGuests);
-                return;
-              }
-              catch (err) {
-                
-              }
-             
-              Navigate('/SignIn')
-              return ;
             }
             fetchTrips();
           },[Navigate]);
   
       const handleSubmit = async () => {
         try {
-          const res = await createMeal(id,formData,accessToken);
-          if(res.status===200){
-            Navigate(`/User/DashBoard/TripDetail/${id}`)
-            return 
-          }
+          const responseCreatMeal = await toastifyService.promise(
+            twoStepTryFetchCustom(createMeal,accessToken,setAccessToken,id,formData),
+            {
+              pending: 'Creating your meal...',
+              success: 'Meal Created Successfully !'
+            }
+          )
+          Navigate(`/User/DashBoard/TripDetail/${id}`)
+          return ;  
         } catch (error) {
-          console.error("this is",error);
-          if(error.response.status===403){
-            console.log("dothis");
-            await ensureToken(accessToken,setAccessToken);
+          if(error.response.status ===401){
+            toastifyService.errorOption(401);
+            return Navigate('/SignIn');
           }
-          else{
-            //Navigate('/SignIn')
-            return 
+          if(error.response.status ===403){
+            toastifyService.errorOption(403);
+            return Navigate('/SignIn');
           }
+          toastifyService.errorOption(500);
+          return Navigate(`/User/DashBoard/TripDetail/${id}`)
         }
-        try {
-          const res = await createMeal(id,formData,accessToken);
-          if(res.status===200){
-            Navigate(`/User/DashBoard/TripDetail/${id}`)
-            return
-          }
-        } catch (error) {
-          
-        }
-        Navigate(`/User/DashBoard/TripDetail/${id}`)
       };
   
       return (

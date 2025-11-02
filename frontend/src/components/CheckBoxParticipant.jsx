@@ -5,6 +5,7 @@ import { useAuth } from "../contextProvider/AuthProvider";
 import { getAllGuest } from "../functions/guestManage";
 import { ensureToken } from "../utils/checkToken";
 import { addTripGuests } from "../functions/tripGuestManage";
+import { twoStepTryFetch } from "../services/apiCallwithToken";
 import React from 'react'
 
 const CheckBoxParticipant = ({handleSubmit}) => {
@@ -21,24 +22,12 @@ const CheckBoxParticipant = ({handleSubmit}) => {
             return ;
           }
       try {
-        const res =  await getAllGuest(accessToken)
-        setGuests(res.data.guests)
-      }catch(err){
-
-      }
-
-      const newAccessToken = await ensureToken(accessToken,setAccessToken);
-      if(!newAccessToken){
-        Navigate('/SignIn');
-      }
-      try {
-        const res =  await getAllGuest(newAccessToken)
-        setGuests(res.data.guests)
+        const responseGetAllGuest = await twoStepTryFetch(getAllGuest,{},accessToken,setAccessToken);
+        setGuests(responseGetAllGuest.data.guests)
       }catch(err){
         Navigate('/SignIn');
-        return ;
+        return;
       }
-      
     }
     fetchGuests();
   },[])

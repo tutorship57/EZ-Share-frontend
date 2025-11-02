@@ -14,11 +14,10 @@ export const twoStepTryFetch = async (selectedApi, payload, accessToken, setAcce
 
   try {
     const res = await selectedApi(payload, accessToken);
-    return { ok: true, data: res };
+    return  res;
   } catch (err) {
-    console.log("Error:", err);
     if (err.response?.status !== 403) {
-      return { ok: false, error: err };
+      throw err;
     }
   }
 
@@ -29,7 +28,7 @@ export const twoStepTryFetch = async (selectedApi, payload, accessToken, setAcce
     const res = await selectedApi(payload, newAccessToken);
     return { ok: true, data: res };
   } catch (err) {
-    return { ok: false, error: err };
+    throw err;
   }
 };
 
@@ -39,9 +38,8 @@ export const twoStepTryFetchWithId = async (selectedId,selectedApi, accessToken,
     const res = await selectedApi(selectedId, accessToken);
     return res;
   } catch (err) {
-    console.log("Error:", err);
     if (err.response?.status !== 403) {
-      return { ok: false, error: err };
+      throw err;
     }
   }
 
@@ -52,7 +50,7 @@ export const twoStepTryFetchWithId = async (selectedId,selectedApi, accessToken,
     const res = await selectedApi(selectedId, newAccessToken);
     return res;
   } catch (err) {
-    return { ok: false, error: err };
+    throw err;
   }
 };
 
@@ -63,9 +61,8 @@ export const twoStepTryFetchCustom = async (selectedApi,accessToken,setAccessTok
     const res = await selectedApi(...args, accessToken);
     return res;
   } catch (err) {
-    console.log("Error:", err);
     if (err.response?.status !== 403) {
-      return { ok: false, error: err };
+      throw err;
     }
   }
 
@@ -75,7 +72,7 @@ export const twoStepTryFetchCustom = async (selectedApi,accessToken,setAccessTok
     const res = await selectedApi(...args, newAccessToken);
     return res;
   } catch (err) {
-    return { ok: false, error: err };
+    throw err;
   }
 }
 

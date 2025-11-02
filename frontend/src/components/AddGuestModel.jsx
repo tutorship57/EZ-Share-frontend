@@ -3,6 +3,7 @@
   import { useNavigate,useParams } from 'react-router';
   import { createGuest } from '../functions/guestManage';
   import { useAuth } from '../contextProvider/AuthProvider';
+  import toastifyService from '../services/toastifyService';
   const AddGuestModal = ({ onClose }) => {
     const {accessToken} = useAuth()
     
@@ -18,11 +19,22 @@
             return;
         }
       e.preventDefault();
-      const res = await createGuest(formData,accessToken);
-      if(res.status===200){
+      try {
+        const responseCreateGuest = toastifyService.promise(
+        createGuest(formData,accessToken),
+        {
+          pending: 'Creating your guest...',
+          success: 'Guest Created Successfully !'
+        }
+        )
         Navigate(`/User/DashBoard/TripDetail/${id}`)
-      }else{
-        console.log(res)
+      } catch (error) {
+        if(error.response.status !==500){
+          toastifyService.errorOption(401);
+          return Navigate('/SignIn');
+        }
+        toastifyService.errorOption(500);
+        return Navigate(`/User/DashBoard/TripDetail/${id}`)
       }
     };
 
