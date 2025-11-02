@@ -58,7 +58,6 @@ const CreateMealModal = ({ onClose }) => {
   
       const handleSubmit = async () => {
         try {
-          console.log("kuy")
           const res = await createMeal(id,formData,accessToken);
           if(res.status===200){
             Navigate(`/User/DashBoard/TripDetail/${id}`)

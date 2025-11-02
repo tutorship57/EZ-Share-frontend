@@ -55,37 +55,6 @@ const CheckBoxList = ({handleSubmit}) => {
     fetchGuests();
   },[])
   
-  // const handleSubmit = async() => {
-  //     if(!accessToken){
-  //         Navigate('/SignIn');
-  //     }
-  //     console.log("this is selected",selected)
-  //     const payload = {
-  //         arrayGuestId:selected,
-  //         tripId:idParam
-  //     }
-  //     console.log("this is payload",payload)
-  //     try{
-  //       const res = await addTripGuests(payload,accessToken);
-
-  //       console.log(res)
-  //     }catch(err){
-  //       console.log(err)
-  //       if(err.response.status!==403){
-  //           return Navigate('/SignIn');
-  //       }
-  //     }
-  //     const newAccessToken = await ensureToken(accessToken,setAccessToken);
-  //     try {
-  //       const res = await addTripGuests(payload,newAccessToken);
-  //       if(res.status===200){
-  //         return Navigate(`/User/Dashboard/TripDetail/${idParam}`);
-  //       }
-  //     } catch (error) {
-  //       Navigate('/SignIn');
-  //       return;
-  //     }
-  // }
   const togglePerson = (id) => {
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
