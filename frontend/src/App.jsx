@@ -1,10 +1,7 @@
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import "./App.css";
-<<<<<<< HEAD
 import LandingPage from "./page/LandingPage"
 import Test from "./page/Test";
-=======
->>>>>>> origin/develop
 import Login from './page/Login'
 import DashBoard from "./page/DashBoard";
 import TripDetail from "./page/TripDetail";
@@ -18,13 +15,8 @@ import CreateGuest from "./page/CreateGuest";
 import CreateMeal from "./page/CreateMeal";
 import SelectTripGuest from "./page/SelectTripGuest";
 import CreateMenu from "./page/CreateMenu";
-<<<<<<< HEAD
-
-
-
-=======
 import { ToastContainer } from 'react-toastify';
->>>>>>> origin/develop
+
 function App() {
   return (
     
