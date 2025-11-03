@@ -44,7 +44,7 @@ const CreateTripModal = ({ onClose }) => {
         toastifyService.errorOption(403);
         return navigate('/SignIn');
       }
-      toastifyService.error(500);
+      toastifyService.errorOption(500);
       return navigate('/User/Dashboard');
     }
   };
