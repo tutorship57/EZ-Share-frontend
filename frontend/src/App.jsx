@@ -1250,6 +1250,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import "./App.css";
+import LandingPage from "./page/LandingPage"
 import Test from "./page/Test";
 import Login from './page/Login'
 import DashBoard from "./page/DashBoard";
@@ -1265,11 +1266,14 @@ import CreateMeal from "./page/CreateMeal";
 import SelectTripGuest from "./page/SelectTripGuest";
 import CreateMenu from "./page/CreateMenu";
 
+
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/SignIn" />} />
+        <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/" element={<Navigate to="/SignIn" />} /> */}
         <Route path="/SignIn" element={<Login/>} />
         <Route path="*" element={<h1>404</h1>} />
         <Route path="/User" element={<UserRoute />} >
