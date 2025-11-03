@@ -61,12 +61,11 @@ const TripDetail = () => {
         catch (err) {
           
         }
-       
         Navigate('/SignIn')
         return ;
       }
       fetchTrips();
-    },[Navigate]);
+    },[Navigate,accessToken,tripId,setAccessToken]);
     const logout = () => {
       
     }
@@ -85,31 +84,9 @@ const TripDetail = () => {
     }
     return (
       <div className="min-h-screen bg-gray-50 text-black dark:text-gray-700">
-        {/* <nav className="bg-white shadow-sm border-b">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <button
-                  onClick={() => setCurrentPage('dashboard')}
-                  className="text-indigo-600 hover:text-indigo-800 mr-4"
-                >
-                  <Home className="w-6 h-6" />
-                </button>
-                <div>
-                  <h1 className="text-lg font-semibold text-gray-800">{currentTrip?.tripName}</h1>
-                  <p className="text-sm text-gray-600">{currentTrip?.Description}</p>
-                </div>
-              </div>
-              <button
-                onClick={logout}
-                className="text-red-600 hover:text-red-800 font-medium"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </nav> */}
-
+        
+        {/* <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ">
+        </div> */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ">
           <div className="bg-white rounded-xl shadow-md">
             <div className="border-b border-gray-200">

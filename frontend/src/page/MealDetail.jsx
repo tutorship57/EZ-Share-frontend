@@ -349,10 +349,10 @@ const MealDetail = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
                     {Object.values(split).map(person => (
-                      <div key={person.name} className="bg-gray-50 rounded-lg p-6">
-                        <h3 className="font-semibold text-lg mb-4">{person.name}</h3>
-                        <div className="space-y-2 mb-4">
-                          {person.menuItems.map((item, idx) => (
+                      <div key={person.name} className="bg-gray-50 rounded-lg p-6 ">
+                        <h3 className="font-semibold text-lg mb-4">{person.guest.name}</h3>
+                        <div className="space-y-2 mb-4 ">
+                          {person.menuItems?.map((item, idx) => (
                             <div key={idx} className="flex justify-between text-sm">
                               <span>{item.menu_name}</span>
                               <span>${item.amount.toFixed(2)}</span>
@@ -362,7 +362,7 @@ const MealDetail = () => {
                         <div className="border-t pt-2">
                           <div className="flex justify-between font-semibold text-lg">
                             <span>Total:</span>
-                            <span className="text-indigo-600">${person.total.toFixed(2)}</span>
+                            <span className="text-indigo-600">${person.total?.toFixed(2)}</span>
                           </div>
                         </div>
                       </div>
