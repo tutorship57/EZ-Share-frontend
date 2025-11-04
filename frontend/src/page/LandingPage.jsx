@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contextProvider/AuthProvider';
 
 export default function EZShareLanding() {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
+  const { accessToken } = useAuth();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const handleLoginClick = () => {  
+    navigate('/SignIn');
+  };
+
+  const handleStartSharing = () => {
+    if (accessToken) {
+      navigate('/User/Dashboard');  // ถ้า login แล้ว ไปที่หน้า Dashboard
+    } else {
+      navigate('/SignIn');  // ถ้ายังไม่ได้ login ไปที่หน้า SignIn
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
@@ -26,7 +43,7 @@ export default function EZShareLanding() {
           </div>
           {/* Navigation Button - Login/Register */}
           <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition transform hover:scale-105 font-medium">
-            Login or Register
+            <button onClick={handleLoginClick}>Login or Register</button>
           </button>
         </div>
       </nav>
@@ -63,7 +80,7 @@ export default function EZShareLanding() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button className="group bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105 flex items-center gap-2">
-              Start Sharing Now
+                <button onClick={handleStartSharing} className="...existing classes...">Start Sharing Now</button>
               <ChevronRight className="group-hover:translate-x-1 transition" />
             </button>
             <button className="bg-white text-purple-600 px-8 py-4 rounded-full text-lg font-semibold border-2 border-purple-600 hover:bg-purple-50 transition transform hover:scale-105">
