@@ -7,6 +7,11 @@ export const createMenuShare = async ( payload, accessToken) => {
         headers: { Authorization: `Bearer ${accessToken}` }
     })
 }
+export const editMenuShare = async ( payload, accessToken) => {
+    return await axios.patch(import.meta.env.VITE_API_BASE_URL+`/api/menuShare/editMenuShare`, payload, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+    })
+}
 
 
 export const getParticipantsMenuShare = async ( accessToken, mealId) => {
@@ -20,6 +25,7 @@ export const getAllMenuShareInfo = async (mealId, accessToken) => {
         headers: { Authorization: `Bearer ${accessToken}` }
     })
 }
+
 
 export const getParticipantSummarySplit = async ( mealId, accessToken) => {
     return await axios.get(import.meta.env.VITE_API_BASE_URL+`/api/menuShare/${mealId}/getParticipantSummarySplit`, {

@@ -26,12 +26,16 @@ const AddMenuModal = ({onClose}) => {
       }
       try {
         const responseCreateMenu = await toastifyService.promise(
-          twoStepTryFetchCustom(createMenu,accessToken,setAccessToken,mealId,payload),
+          twoStepTryFetchCustom(createMenu,accessToken,setAccessToken,mealId,payload),{
+            pending: 'Creating your menu...',
+            success: 'Menu Created Successfully !'
+          }
         )
         Navigate(`/User/DashBoard/TripDetail/${tripId}/MealDetail/${mealId}`)
         return ;
         
       } catch (error) {
+        console.log("Create Menu Error:",error)
         if(error.response.status ===401){
           toastifyService.errorOption(401);
           return Navigate('/SignIn');
