@@ -6,6 +6,7 @@ import Navbar from "../layout/Navbar";
 import { twoStepTryFetch } from "../services/apiCallwithToken" 
 import { fetchAccessToken ,fetchTestToken} from "../functions/accessTokenFetch";
 import { getUserProfile } from "../functions/userManage";
+import BreadCrums from "../components/BreadCrums";
 const UserRoute = () => {
     const { accessToken , setAccessToken } = useAuth();
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ const UserRoute = () => {
     return (accessToken?
         <div className="min-h-screen bg-gray-50">
             <Navbar userProfile={userProfile}/>
-
+            <BreadCrums/>
             <Outlet />
         </div>:
         <div>
