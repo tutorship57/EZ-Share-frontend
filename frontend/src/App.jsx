@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import "./App.css";
 import LandingPage from "./page/LandingPage"
-import Test from "./page/Test";
 import Login from './page/Login'
 import DashBoard from "./page/DashBoard";
 import TripDetail from "./page/TripDetail";
@@ -31,7 +30,6 @@ function App() {
           <Route path="DashBoard" element={<DashBoard/>}/>
           <Route path="DashBoard/NewTrip" element={<CreateTrip/>} />
           <Route path="DashBoard/AssignUser" element={<AssignModal/>}/>
-
           <Route path="DashBoard/TripDetail/:tripId" element={<TripDetail/>}/>
           <Route path="DashBoard/TripDetail/:id/AddGuest" element={<CreateGuest/>}/>
           <Route path="DashBoard/TripDetail/:id/SelectTripGuest" element={<SelectTripGuest/>}/>

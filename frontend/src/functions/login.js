@@ -1,9 +1,9 @@
 import axios from 'axios'
-export const login = async (data)=>{
+export const loginFunc = async (data)=>{
     return await axios.post(import.meta.env.VITE_API_BASE_URL+'/api/auth/login',data,{withCredentials: true })
 }
 
-export const register = async (data)=>{
+export const registerFunc = async (data)=>{
     return await axios.post(import.meta.env.VITE_API_BASE_URL+'/api/auth/register',data)
 }
 
