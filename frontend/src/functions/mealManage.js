@@ -11,3 +11,4 @@ export const getAllMeals = async (tripId,accessToken)=>{
         headers:{Authorization:`Bearer ${accessToken}`}
     })
 }
+

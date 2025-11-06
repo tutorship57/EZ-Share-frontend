@@ -220,11 +220,11 @@ const TripDetail = () => {
                           <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
                             <span className="flex items-center">
                               <Users className="w-4 h-4 mr-1" />
-                              {meal.assignedGuests?.length?  meal.assignedGuests.length: 0} guests
+                              {tripGuest?.length?  tripGuest.length: 0} guests
                             </span>
                             <span className="flex items-center">
                               <MenuIcon className="w-4 h-4 mr-1" />
-                              {meal.menuList?.length? meal.menuList?.length: 0} items
+                              {meal._count?.menuList? meal._count?.menuList: 0} items
                             </span>
                           </div>
 

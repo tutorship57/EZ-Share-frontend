@@ -64,7 +64,7 @@ const DashBoard = () => {
                   </span>
                   <span className="flex items-center">
                     <Utensils className="w-4 h-4 mr-1" />
-                    {trip?.meals?.length || 0} meals
+                    {trip?._count?.meals || 0} meals
                   </span>
                 </div>
                 <button

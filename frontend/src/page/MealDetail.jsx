@@ -5,10 +5,12 @@ import AssignModal from '../components/AssignModal';
 import { useAuth } from '../contextProvider/AuthProvider';
 import {getAllMenu} from '../functions/menuManage';
 import {getAllGuest} from '../functions/guestManage';
+import {deleteMenuShare} from '../functions/menuShareManage';
 import {createMenuShare,getAllMenuShareInfo,getParticipantSummarySplit,editMenuShare} from '../functions/menuShareManage';
 import {getAllTripGuests} from '../functions/tripGuestManage';
 import { twoStepTryFetchWithId,twoStepTryFetch,twoStepTryFetchCustom } from '../services/apiCallwithToken';
 import toastifyService from '../services/toastifyService';
+import DeleteMealModal from '../components/DeleteMenuShareModal';
 const MealDetail = () => {
     const [activeTab, setActiveTab] = useState('menu');
     const [showAddParticipant, setShowAddParticipant] = useState(false);
@@ -22,7 +24,8 @@ const MealDetail = () => {
     const {accessToken,setAccessToken} = useAuth();
     const [currentMeal, setCurrentMeal] = useState([]);
     const [split, setSplit] = useState({});
-    
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [participantsName,setParticipantsName] = useState('');
     const fetchMenu = async () => {
         try {
           const respondMenu  = await twoStepTryFetchWithId(mealId,getAllMenu,accessToken,setAccessToken)
@@ -96,6 +99,13 @@ const MealDetail = () => {
       setSelectedItem(item);
       setShowAssignModal(true);
     };
+    const openDeleteModal = (item,participantsNames) => {
+      setSelectedItem(item);
+      setParticipantsName(participantsNames);
+      console.log("selectedItemDelete:",item)
+      console.log("participanstNames:",participantsNames)
+      setShowDeleteModal(true)
+    }
     const handleAssignMenuShareMedal= async(payload)=>{
       try {
         if(activeTab === 'assignments'){
@@ -118,6 +128,34 @@ const MealDetail = () => {
         return ;
       } catch (error) {
         console.log("this is error MenuShare:",error)
+        toastifyService.errorOption(500);
+      }
+    }
+
+    const handleDeleteMenuShare= async()=>{
+      try {
+        const menuId = selectedItem.menu_id;
+        const responseDeleteMenuShare = await toastifyService.promise(
+          twoStepTryFetchWithId(menuId,deleteMenuShare, accessToken, setAccessToken),
+          {
+            pending: 'Deleting menu item...',
+            success: 'Menu item deleted successfully!'
+          }
+        )
+        setShowDeleteModal(false)
+        fetchMenuShareInfo()
+        fetchParticipantSummarySplit()
+        return ;
+      } catch (error) {
+        if(error.response.status ===401){
+          toastifyService.errorOption(401);
+          return Navigate('/SignIn');
+        }
+        if(error.response.status ===403){
+          toastifyService.errorOption(403);
+          return Navigate('/SignIn');
+        }
+        console.log("this is error Delete MenuShare:",error)
         toastifyService.errorOption(500);
       }
     }
@@ -257,7 +295,7 @@ const MealDetail = () => {
                               <Edit3 className="w-4 h-4" />
                               </button>
                               <button
-                                  onClick={() => openAssignModal(item)}
+                                  onClick={() => openDeleteModal(item,assignedNames)}
                                   className="text-orange-600 hover:text-orange-800 text-sm"
                                 >
                                 <Trash2 className="w-4 h-4" />
@@ -331,6 +369,8 @@ const MealDetail = () => {
           />)
         )
         }
+
+        {showDeleteModal && (<DeleteMealModal item={selectedItem} participantsNames={participantsName} handleDeleteMenuShare={handleDeleteMenuShare} onClose={() => setShowDeleteModal(false)} />)}
        
       </div>
     );

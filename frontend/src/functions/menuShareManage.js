@@ -32,3 +32,9 @@ export const getParticipantSummarySplit = async ( mealId, accessToken) => {
         headers: { Authorization: `Bearer ${accessToken}` }
     })
 }
+
+export const deleteMenuShare = async (menuId,accessToken)=>{
+    return await axios.delete(import.meta.env.VITE_API_BASE_URL+`/api/menuShare/${menuId}/deleteMenuShare`,{
+        headers:{Authorization:`Bearer ${accessToken}`}
+    })
+}
