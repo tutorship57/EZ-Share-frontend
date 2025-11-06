@@ -23,7 +23,7 @@ const DashBoard = () => {
       }
   
       fetchTrips();
-    }, []);
+    }, [Navigate]);
   
     // const handleViewDetail = ()=>{
     //   Navigate(`TripDetail`)
@@ -45,7 +45,7 @@ const DashBoard = () => {
             <h1 className="text-3xl font-bold text-gray-800">Your Trip Meals</h1>
             <button
               onClick={handleCreateTrip}
-              className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center"
+              className="bg-violet-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors flex items-center"
             >
               <Plus className="w-5 h-5 mr-2" />
               New Trip Meal 
@@ -69,7 +69,7 @@ const DashBoard = () => {
                 </div>
                 <button
                   onClick={()=>handleViewDetail(trip.trip_id)}
-                  className="w-full bg-indigo-100 text-indigo-700 py-2 rounded-lg font-medium hover:bg-indigo-200 transition-colors"
+                  className="w-full bg-violet-100 text-violet-700 py-2 rounded-lg font-medium hover:bg-indigo-200 transition-colors"
                 >
                   View Details
                 </button>

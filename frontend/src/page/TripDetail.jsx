@@ -97,7 +97,7 @@ const TripDetail = () => {
                     onClick={() => setActiveTab(tab)}
                     className={`py-4 px-2 border-b-2 font-medium text-sm capitalize ${
                       activeTab === tab
-                        ? 'border-indigo-500 text-indigo-600'
+                        ? 'border-indigo-500 text-violet-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                   >
@@ -146,7 +146,7 @@ const TripDetail = () => {
                     <h2 className="text-xl font-semibold">Trip Guests Selected</h2>
                     <button
                       onClick={handleSelectTripGuest}
-                      className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
+                      className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 flex items-center"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add Guest to Your Trip
@@ -156,7 +156,7 @@ const TripDetail = () => {
                     {tripGuest?.map(guest => (
                       <div key={guest.guest_id} className="bg-gray-50 rounded-lg p-4 flex items-center">
                         <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                          <User className="w-5 h-5 text-indigo-600" />
+                          <User className="w-5 h-5 text-violet-600" />
                         </div>
                         <div>
                           <p className="font-medium">{guest.guest_table.guest_name}</p>
@@ -178,7 +178,7 @@ const TripDetail = () => {
                     <h2 className="text-xl font-semibold">Trip Meals</h2>
                     <button
                       onClick={handleAddMeal}
-                      className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
+                      className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 flex items-center"
                       disabled={tripGuest?.length === 0}
                     >
                       <Plus className="w-4 h-4 mr-2" />
@@ -230,7 +230,7 @@ const TripDetail = () => {
 
                           <button
                             onClick={()=>handleManageMeal(meal.meal_id)}
-                            className="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                            className="w-full bg-violet-600 text-white py-2 rounded-lg font-medium hover:bg-violet-700 transition-colors"
                           >
                             Manage Meal
                           </button>

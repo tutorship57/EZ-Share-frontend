@@ -13,7 +13,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                 <input
                 type="text"
-                className={`w-full px-4 py-3 border border-gray-300  text-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent `}
+                className={`w-full px-4 py-3 border border-gray-300  text-gray-700 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent `}
                 // value={formData.name}
                 {...register("name",{required:"please fill up your name !"})}
                 // onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -28,7 +28,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input
                 type="email"
-                className="w-full px-4 py-3 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                 // value={formData.email}
                 {...register("email",{required:"please fill up your email !"})}
                 // onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -43,7 +43,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
             <input
                 type="password"
                 {...register("password", { required: "password required at least 8 charactor !", minLength: 8 })}
-                className="w-full px-4 py-3 border border-gray-300  text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300  text-gray-900 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                 // value={formData.password}
                 // onChange={(e) => setFormData({...formData, password: e.target.value})}
             />
@@ -54,7 +54,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
 
             <button
             type="submit"
-            className={`w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors ${errors.name?.message && !(errors.password?.message) ?  "mt-6" : "mt-2"}`}
+            className={`w-full bg-violet-600 text-white py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors ${errors.name?.message && !(errors.password?.message) ?  "mt-6" : "mt-2"}`}
             >
             {isLogin ? 'Sign In' : 'Create Account'}
             </button>

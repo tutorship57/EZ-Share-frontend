@@ -77,7 +77,7 @@ const CreateMealModal = ({ onClose }) => {
                   type="text"
                   required
                   placeholder="e.g., Breakfast at Hotel, Lunch at Restaurant"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   value={formData.meal_name}
                   onChange={(e) => setFormData({...formData, meal_name: e.target.value})}
                 />
@@ -89,7 +89,7 @@ const CreateMealModal = ({ onClose }) => {
                   type="text"
                   required
                   placeholder="e.g., Breakfast 8:00 AM, Lunch 12:30 PM, Dinner 7:00 PM"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   value={formData.meal_at}
                   onChange={(e) => setFormData({...formData, meal_at: e.target.value})}
                 />
@@ -99,7 +99,7 @@ const CreateMealModal = ({ onClose }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Meal Host *</label>
                 <select
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   value={formData.meal_host}
                   onChange={(e) => setFormData({...formData, meal_host: e.target.value})}
                 >
@@ -126,7 +126,7 @@ const CreateMealModal = ({ onClose }) => {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                  className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
                 >
                   Create Meal
                 </button>

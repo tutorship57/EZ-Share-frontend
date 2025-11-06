@@ -112,13 +112,15 @@ const MealDetail = () => {
           });
         }
         setShowAssignModal(false)
+
+        fetchMenuShareInfo()
+        fetchParticipantSummarySplit()
         return ;
       } catch (error) {
         console.log("this is error MenuShare:",error)
         toastifyService.errorOption(500);
       }
     }
-
 
     const getMealIcon = (type) => {
         switch (type) {
@@ -146,7 +148,7 @@ const MealDetail = () => {
                     onClick={() => setActiveTab(tab)}
                     className={`py-4 px-2 border-b-2 font-medium text-sm capitalize ${
                       activeTab === tab
-                        ? 'border-indigo-500 text-indigo-600'
+                        ? 'border-violet-500 text-violet-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                   >
@@ -163,7 +165,7 @@ const MealDetail = () => {
                     <h2 className="text-xl font-semibold text-gray-800">Participants</h2>
                     <button
                       onClick={() => setShowAddParticipant(true)}
-                      className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
+                      className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 flex items-center"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add Participant
@@ -173,8 +175,8 @@ const MealDetail = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-700">
                     {tripGuests?.map(participant => (
                       <div key={participant.guest_id} className="bg-gray-50 rounded-lg p-4 flex items-center">
-                        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                          <Users className="w-5 h-5 text-indigo-600" />
+                        <div className="w-10 h-10 bg-violet-100 rounded-full flex items-center justify-center mr-3">
+                          <Users className="w-5 h-5 text-violet-600" />
                         </div>
                         <span className="font-medium">{participant.guest_table.guest_name}</span>
                       </div>
@@ -197,7 +199,7 @@ const MealDetail = () => {
                     <h2 className="text-xl font-semibold">Menu Items</h2>
                     <button
                       onClick={handleAddMenuItem}
-                      className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
+                      className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 flex items-center"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add Menu Item
@@ -214,7 +216,7 @@ const MealDetail = () => {
                         {(currentMeal[0]?.assignments[item.menu_id]?.length) > 0 ?
                         <button disabled className='bg-lime-100 text-lime-700 px-3 py-1 rounded-lg text-sm '>assigned</button>:<button
                           onClick={() => openAssignModal(item)}
-                          className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-lg text-sm hover:bg-indigo-200"
+                          className="bg-violet-100 text-violet-700 px-3 py-1 rounded-lg text-sm hover:bg-violet-200"
                         >
                           Assign
                         </button>}
@@ -247,18 +249,27 @@ const MealDetail = () => {
                               <h3 className="font-medium">{item.menu_name}</h3>
                               <p className="text-gray-600">${item.amount.toFixed(2)}</p>
                             </div>
-                            <button
-                              onClick={() => openAssignModal(item)}
-                              className="text-indigo-600 hover:text-indigo-800 text-sm"
-                            >
+                            <div className="flex space-x-3" d>
+                              <button
+                                onClick={() => openAssignModal(item)}
+                                className="text-violet-500 hover:text-violet-800 text-sm"
+                              >
                               <Edit3 className="w-4 h-4" />
-                            </button>
+                              </button>
+                              <button
+                                  onClick={() => openAssignModal(item)}
+                                  className="text-orange-600 hover:text-orange-800 text-sm"
+                                >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                           
                           </div>
                           
                           {assignedNames.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                               {assignedNames.map((name, idx) => (
-                                <span key={idx} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm">
+                                <span key={idx} className="bg-violet-100 text-violet-700 px-2 py-1 rounded text-sm">
                                   {name} (${(item.amount / assignedNames.length).toFixed(2)})
                                 </span>
                               ))}
@@ -291,7 +302,7 @@ const MealDetail = () => {
                         <div className="border-t pt-2">
                           <div className="flex justify-between font-semibold text-lg">
                             <span>Total:</span>
-                            <span className="text-indigo-600">${person.total?.toFixed(2)}</span>
+                            <span className="text-violet-600">${person.total?.toFixed(2)}</span>
                           </div>
                         </div>
                       </div>

@@ -66,7 +66,7 @@ const AddMenuModal = ({onClose}) => {
                         type="text"
                         required
                         placeholder="Menu name"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                         value={formData.menu_name}
                         onChange={(e) => setFormData({...formData, menu_name: e.target.value})}
                     />
@@ -77,7 +77,7 @@ const AddMenuModal = ({onClose}) => {
                         type="text"
                         required
                         placeholder="Amount"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                         value={formData.amount}
                         onChange={(e) => setFormData({...formData, amount: e.target.value})}
                     />
@@ -97,7 +97,7 @@ const AddMenuModal = ({onClose}) => {
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
               >
                 Add Menu
               </button>

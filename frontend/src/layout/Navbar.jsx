@@ -25,13 +25,19 @@ const navbar = ({userProfile}) => {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center h-16">
         <div className="flex items-center">
-          <Receipt className="w-8 h-8 text-indigo-600 mr-2" />
-          <span className="text-xl font-bold text-gray-800">SplitEase</span>
+          {/* <Receipt className="w-8 h-8 text-violet-600 mr-2" /> */}
+          
+            <img 
+                src="/src/assets/logo-PhotoroomCrop.svg" 
+                alt="EZ-share Logo"
+                className="w-auto h-12 drop-shadow-2xl"
+            />
+          {/* <span className="text-xl font-bold text-gray-800">EZ-Share</span> */}
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center gap-1 bg-indigo-100 px-2 py-1 rounded-xl">
-            <User className="w-5 h-5 text-indigo-600 rounded-full  "/>
-            <span className="text-indigo-600 ">{userProfile?.username}</span>
+            <User className="w-5 h-5 text-violet-600 rounded-full  "/>
+            <span className="text-violet-600 ">{userProfile?.username}</span>
           </div>
        
           <button

@@ -68,12 +68,12 @@ const CheckBoxParticipant = ({handleSubmit}) => {
               />
               <label
                 htmlFor={`guest-${guest.guest_id}`}
-                className="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer transition-all duration-300 hover:bg-gray-100 hover:translate-x-1 peer-checked:bg-indigo-100 peer-checked:translate-x-0"
+                className="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer transition-all duration-300 hover:bg-gray-100 hover:translate-x-1 peer-checked:bg-violet-100 peer-checked:translate-x-0"
               >
-                <div className="w-6 h-6 border-2 border-indigo-500 rounded-md mr-4 flex items-center justify-center peer-checked:border-white peer-checked:bg-white transition-all duration-300">
+                <div className="w-6 h-6 border-2 border-violet-500 rounded-md mr-4 flex items-center justify-center peer-checked:border-white peer-checked:bg-white transition-all duration-300">
                   {selected.includes(guest.guest_id) && (
                     <svg
-                      className="w-4 h-4 text-indigo-500"
+                      className="w-4 h-4 text-violet-500"
                       fill="none"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -102,7 +102,7 @@ const CheckBoxParticipant = ({handleSubmit}) => {
                 return (
                   <span
                     key={id}
-                    className="px-3 py-1 bg-indigo-300 text-white rounded-full text-sm"
+                    className="px-3 py-1 bg-violet-300 text-white rounded-full text-sm"
                   >
                     {guest.guest_name}
                   </span>
@@ -113,7 +113,7 @@ const CheckBoxParticipant = ({handleSubmit}) => {
         </div>
         <button
           onClick={()=>handleSubmit(selected)}
-          className="w-full bg-indigo-600 text-white mt-6 py-3 rounded-lg font-medium hover:bg-indigo-200 transition-colors"
+          className="w-full bg-violet-600 text-white mt-6 py-3 rounded-lg font-medium hover:bg-violet-200 transition-colors"
         >
           add to trip
         </button>

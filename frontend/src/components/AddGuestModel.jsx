@@ -55,7 +55,7 @@
                 type="text"
                 required
                 placeholder="Guest name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, guestName: e.target.value})}
               />
@@ -72,7 +72,7 @@
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
               >
                 Add Guest
               </button>

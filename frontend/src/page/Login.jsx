@@ -71,13 +71,19 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 scrollbar-hide overflow-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center max-h-screen justify-center p-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none]">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md ">
         <div className="text-center mb-6">
-          <div className="bg-indigo-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Receipt className="w-8 h-8 text-white" />
+            <div>
+          {/* <div className="bg-indigo-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"> */}
+            {/* <Receipt className="w-8 h-8 text-white" /> */}
+            <img 
+                src="/src/assets/logo-PhotoroomCrop.svg" 
+                alt="EZ-share Logo"
+                className="w-[700px] h-auto drop-shadow-2xl"
+            />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800">EZ-Share</h1>
+          {/* <h1 className="text-3xl font-bold text-gray-800">EZ-Share</h1> */}
           <p className="text-gray-600 mt-2">Split bills with friends easily</p>
         </div>
         <LoginForm

@@ -5,8 +5,8 @@ const BreadCrums = () => {
     const pathnames = location.pathname.split("/").filter((x) => x);
 
     return (
-        <nav className="max-w-6xl mx-auto flex items-center px-4 sm:px-6 lg:px-8 pt-6  text-m text-indigo-800 font-medium space-x-1 ">
-        <Link to="/" className=" hover:underline hover:text-indigo-600">
+        <nav className="max-w-6xl mx-auto flex items-center px-4 sm:px-6 lg:px-8 pt-6  text-m text-violet-800 font-medium space-x-1 ">
+        <Link to="/" className=" hover:underline hover:text-violet-600">
             Home
         </Link>
         {pathnames.map((value, index) => {
@@ -19,13 +19,13 @@ const BreadCrums = () => {
 
             return (
             <div key={pathTo} className="flex items-center space-x-1">
-                <span className="text-indigo-400">›</span>
+                <span className="text-violet-400">›</span>
                 {isLast ? (
-                <span className="text-indigo-500 capitalize">{value}</span>
+                <span className="text-violet-500 capitalize">{value}</span>
                 ) : (
                 <Link
                     to={index%2===0?pathBefore:pathTo}
-                    className="hover:underline hover:text-indigo-600 capitalize"
+                    className="hover:underline hover:text-violet-600 capitalize"
                 >
                     {value}
                 </Link>

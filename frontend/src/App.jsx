@@ -23,7 +23,6 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        {/* <Route path="/" element={<Navigate to="/SignIn" />} /> */}
         <Route path="/SignIn" element={<Login/>} />
         <Route path="*" element={<h1>404</h1>} />
         <Route path="/User" element={<UserRoute />} >
@@ -36,7 +35,6 @@ function App() {
           <Route path="DashBoard/TripDetail/:id/AddMeal" element={<CreateMeal/>}/>
           <Route path="DashBoard/TripDetail/:tripId/MealDetail/:mealId" element={<MealDetail/>}/>
           <Route path="DashBoard/TripDetail/:tripId/MealDetail/:mealId/addMenu" element={<CreateMenu/>} />
-          
         </Route>
       </Routes>
     </BrowserRouter>
