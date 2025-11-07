@@ -28,6 +28,7 @@ const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
   const onSubmit = (data) => {
     if (isLogin) {
@@ -92,6 +93,7 @@ const LoginPage = () => {
           onSubmit={handleSubmit(onSubmit)}
           register={register}
           errors={errors}
+          watch={watch}
         />
 
         <div className="mt-3 text-center">

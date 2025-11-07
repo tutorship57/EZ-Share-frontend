@@ -70,7 +70,7 @@ const CreateMealModal = ({ onClose }) => {
               </button>
             </div>
   
-            <div  className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Meal Name *</label>
                 <input
@@ -124,14 +124,13 @@ const CreateMealModal = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  type="button"
-                  onClick={handleSubmit}
+                  type="submit"
                   className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
                 >
                   Create Meal
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       );

@@ -1,11 +1,13 @@
 import React from 'react'
 
 
-const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
+const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register,watch }) => {
 
+  const password = watch("password");
+  console.log("this is watch password ",password?.length)
   return (
     <>
-        <form onSubmit={handleSubmit(onSubmit)} className={`${Object.keys(errors).length === 0 ? "space-y-6" : ("")} `}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4`}>
         {/* <form onSubmit={handleSubmit(onSubmit)} className="space-y-6"> */}
 
             {!isLogin && (
@@ -19,12 +21,12 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 // onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-sm py-2">{errors.name.message}</p>
+                  <p className="text-red-500 text-sm ">{errors.name.message}</p>
                 )}
             </div>
             )}
 
-            <div className={` ${!(errors.name?.message)?  "mt-6" : ""}`}>
+            <div className={` ${!(errors.name?.message)?  "" : ""}  `}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input
                 type="email"
@@ -34,7 +36,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 // onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
             {errors.email && (
-            <p className="text-red-500 text-sm py-2">{errors.email.message}</p>
+            <p className="text-red-500 text-sm ">{errors?.email?.message }</p>
             )}
             </div>
 
@@ -47,14 +49,14 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 // value={formData.password}
                 // onChange={(e) => setFormData({...formData, password: e.target.value})}
             />
-            {errors.password && (
-                <p className="text-red-500 text-sm py-2">{errors.password.message}</p>
+            {(errors.password  || password?.length < 8) &&(
+                <p className="text-red-500 text-sm ">{errors?.password?.message }</p>
             )}
             </div>
 
             <button
             type="submit"
-            className={`w-full bg-violet-600 text-white py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors ${errors.name?.message && !(errors.password?.message) ?  "mt-6" : "mt-2"}`}
+            className={`w-full bg-violet-600 text-white py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors `}
             >
             {isLogin ? 'Sign In' : 'Create Account'}
             </button>

@@ -16,6 +16,10 @@ const SelectTripGuest = () => {
         Navigate('/SignIn');
         return ;
       }
+      if(selected.length ===0){
+        toastifyService.error("Please select at least one guest to add !");
+        return ;
+      }
       const payload = {
             arrayGuestId:selected,
             tripId:idParam

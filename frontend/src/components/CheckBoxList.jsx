@@ -13,7 +13,6 @@ const CheckBoxList = ({handleSubmit}) => {
   const {accessToken,setAccessToken} = useAuth();
   const Navigate = useNavigate();
   const idParam = useParams().id;
-  console.log(idParam)
 
   useEffect(() => {
     
