@@ -7,6 +7,7 @@ import { fetchAccessToken } from '../functions/accessTokenFetch';
 import { getAllGuest } from '../functions/guestManage';
 import { getAllTripGuests } from '../functions/tripGuestManage';
 import { getAllMeals } from '../functions/mealManage';
+import { twoStepTryFetch, twoStepTryFetchCustom, twoStepTryFetchWithId } from '../services/apiCallwithToken';
 const TripDetail = () => {
     const [activeTab, setActiveTab] = useState('guests');
     const [showAddGuest, setShowAddGuest] = useState(false);
@@ -18,57 +19,35 @@ const TripDetail = () => {
     const {accessToken,setAccessToken} = useAuth();
     const Navigate = useNavigate()
     const {tripId} = useParams()
+
+    
     useEffect(() => {
-      if(!accessToken){
-        Navigate('/SignIn')
+      if (!accessToken) {
+        Navigate('/SignIn');
+        return;
       }
-      async function fetchTrips() {
-        try {
-          const guestRes = await getAllGuest(accessToken); // URL API ของคุณ
-          const tripGuestRes = await getAllTripGuests(tripId,accessToken);
-          const mealRes = await getAllMeals(tripId,accessToken);
-          console.log('Guest Response:', guestRes.data);
-          console.log('Trip Guest Response:', tripGuestRes.data);
-          setTripGuest(tripGuestRes.data.tripGuests);
-          setAllGuest(guestRes.data.guests); // สมมติ API ส่ง [{},{}] มา
-          setAllMeals(mealRes.data.meals);
 
-          console.log("this is meal",mealRes.data.meals);
-          return;
-        }
-        catch (err) {
-          console.error(err);
-        }
-
-        try{
-          const res = await fetchAccessToken(accessToken)
-          setAccessToken(res.data.accessToken)
-          
-        }
-        catch(err){
-          Navigate('/SignIn')
-        }
+      const fetchAll = async () => {
         try {
-          const guestRes = await getAllGuest(accessToken); // URL API ของคุณ
-          const tripGuestRes = await getAllTripGuests(tripId,accessToken);
-          const mealRes = await getAllMeals(tripId,accessToken);
-          console.log('Response:', res.data);
-          setAllGuest(guestRes.data.guests); // สมมติ API ส่ง [{},{}] มา
+          // เรียกพร้อมกันทั้งหมด
+          const [guestRes, tripGuestRes, mealRes] = await Promise.all([
+            twoStepTryFetchCustom(getAllGuest, accessToken, setAccessToken),
+            twoStepTryFetchWithId(tripId, getAllTripGuests, accessToken, setAccessToken),
+            twoStepTryFetchWithId(tripId, getAllMeals, accessToken, setAccessToken)
+          ]);
+
+          // update state ทีเดียว
+          setAllGuest(guestRes.data.guests);
           setTripGuest(tripGuestRes.data.tripGuests);
           setAllMeals(mealRes.data.meals);
-          return;
+        } catch (err) {
+          console.error('Fetch error:', err);
+          Navigate('/SignIn');
         }
-        catch (err) {
-          
-        }
-        Navigate('/SignIn')
-        return ;
-      }
-      fetchTrips();
-    },[Navigate,accessToken,tripId,setAccessToken]);
-    const logout = () => {
-      
-    }
+      };
+      fetchAll();
+    }, [Navigate, accessToken, tripId, setAccessToken]);
+   
 
     const handleManageMeal = (mealId)=>{
       Navigate(`/User/DashBoard/TripDetail/${tripId}/MealDetail/${mealId}`)
