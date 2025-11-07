@@ -1,8 +1,10 @@
 import React from 'react'
 
 
-const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
+const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register,watch }) => {
 
+  const password = watch("password");
+  console.log("this is watch password ",password?.length)
   return (
     <>
         <form onSubmit={handleSubmit(onSubmit)} className={`${Object.keys(errors).length === 0 ? "space-y-6" : ("")} `}>
@@ -24,7 +26,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
             </div>
             )}
 
-            <div className={` ${!(errors.name?.message)?  "mt-6" : ""}`}>
+            <div className={` ${!(errors.name?.message)?  "mt-6" : ""} ${(errors.password?.message || password?.length < 8) ? "mb-6" : ""} `}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input
                 type="email"
@@ -34,7 +36,7 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 // onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
             {errors.email && (
-            <p className="text-red-500 text-sm py-2">{errors.email.message}</p>
+            <p className="text-red-500 text-sm py-2">{errors?.email?.message }</p>
             )}
             </div>
 
@@ -47,8 +49,8 @@ const LoginForm = ({ handleSubmit,isLogin, onSubmit, errors, register }) => {
                 // value={formData.password}
                 // onChange={(e) => setFormData({...formData, password: e.target.value})}
             />
-            {errors.password && (
-                <p className="text-red-500 text-sm py-2">{errors.password.message}</p>
+            {(errors.password  || password?.length < 8) &&(
+                <p className="text-red-500 text-sm py-2">{errors?.password?.message || "password required at least 8 charactor !"}</p>
             )}
             </div>
 

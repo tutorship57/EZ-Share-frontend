@@ -27,6 +27,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
@@ -87,6 +88,7 @@ const LoginPage = () => {
           <p className="text-gray-600 mt-2">Split bills with friends easily</p>
         </div>
         <LoginForm
+          watch={watch}
           handleSubmit={handleSubmit}
           isLogin={isLogin}
           onSubmit={handleSubmit(onSubmit)}

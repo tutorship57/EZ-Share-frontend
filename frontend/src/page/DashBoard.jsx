@@ -19,7 +19,7 @@ const DashBoard = () => {
         } catch (err) {
           console.error(err);
         } 
-        
+
       }
   
       fetchTrips();
