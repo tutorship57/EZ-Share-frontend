@@ -35,7 +35,12 @@ const CreateMealModal = ({ onClose }) => {
             fetchTrips();
           },[Navigate]);
   
-      const handleSubmit = async () => {
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(!accessToken){
+          Navigate('/SignIn');
+          return;
+        }
         try {
           const responseCreatMeal = await toastifyService.promise(
             twoStepTryFetchCustom(createMeal,accessToken,setAccessToken,id,formData),

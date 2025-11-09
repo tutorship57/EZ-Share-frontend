@@ -11,3 +11,4 @@ export const getAllGuest = async(accessToken)=>{
         headers:{Authorization:`Bearer ${accessToken}`}
     })
 }
+

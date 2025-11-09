@@ -11,3 +11,8 @@ export const getAllTrips = async(accessToken)=>{
     })
 }
 
+export const deleteTripById = async(tripId,accessToken)=>{
+    return await axios.delete(import.meta.env.VITE_API_BASE_URL+`/api/trip/delete-trip/${tripId}`,{
+        headers:{ Authorization:`Bearer ${accessToken}`}
+    })
+}

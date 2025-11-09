@@ -5,13 +5,20 @@ import { useNavigate } from 'react-router';
 import { getAllTrips } from '../functions/tripManage';
 import CreateTripModal from '../components/CreateTripModal';
 import { useAuth } from '../contextProvider/AuthProvider';
+import { deleteTripById } from '../functions/tripManage';
+import DeleteModal from '../components/DeleteModal';
+import toastifyService from '../services/toastifyService';
+import { twoStepTryFetchWithId } from '../services/apiCallwithToken';
 const DashBoard = () => {
     const [showCreateTrip, setShowCreateTrip] = useState(false);
+    const [showDeleteTrip, setShowDeleteTrip] = useState(false);
+    const [tripToDelete, setTripToDelete] = useState(null);
+    const [tripToEdit, setTripToEdit] = useState(null);
+
     const Navigate = useNavigate()
     const [trips, setTrips] = useState([]);
     const {accessToken,setAccessToken} = useAuth();
-    useEffect(() => {
-      async function fetchTrips() {
+    const fetchTrips = async()=> {
         try {
           const res = await getAllTrips(accessToken); // URL API ของคุณ
           console.log('Response:', res.data);
@@ -20,7 +27,9 @@ const DashBoard = () => {
           console.error(err);
         } 
         
-      }
+    }
+    useEffect(() => {
+      
   
       fetchTrips();
     }, [Navigate]);
@@ -35,6 +44,38 @@ const DashBoard = () => {
 
     const handleCreateTrip = ()=>{
       Navigate('NewTrip')
+    }
+    const handleDeleteTrip =async (id)=>{  
+      try {
+        const DeleteTripRes =await toastifyService.promise(
+          twoStepTryFetchWithId(id,deleteTripById,accessToken,setAccessToken),{
+            pending: 'Deleting your trip...',
+            success: 'Trip Deleted Successfully !'
+          }
+        )
+        fetchTrips();
+        setShowDeleteTrip(false);
+        return ;
+      } catch (error) {
+        console.log("Delete Trip Error:",error)
+        if(error.response.status ===401){
+          toastifyService.errorOption(401);
+          return Navigate('/SignIn');
+        }
+        if(error.response.status ===403){
+          toastifyService.errorOption(403);
+          return Navigate('/SignIn');
+        }
+        toastifyService.errorOption(500);
+      }
+    }
+    const openDeleteModal = (trip)=>{
+      setShowDeleteTrip(true);
+      setTripToDelete(trip);
+    }
+    const openEditModal = (trip)=>{
+      setShowDeleteTrip(true);
+      setTripToEdit(trip);
     }
     return (
       <div className="">
@@ -55,7 +96,17 @@ const DashBoard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 text-amber-950 lg:grid-cols-3 gap-6">
           {trips.map(trip => (
               <div key={trip.trip_id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6">
+                <div className="flex justify-between items-center ">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{trip.tripName}</h3>
+                <div className="flex space-x-2">
+                {/* <button className="text-violet-500 hover:text-violet-800" >
+                  <Edit3 className="w-4 h-4" onClick={()=>openEditModal(trip)}/>
+                </button>
+                <button className="text-orange-600 hover:text-orange-800 text-sm">
+                  <Trash2 className="w-4 h-4" onClick={()=>openDeleteModal(trip)}/>
+                </button> */}
+                </div>
+                </div>
                 <p className="text-gray-600 mb-4">{trip.Description}</p>
                 <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
                   <span className="flex items-center">
@@ -88,6 +139,8 @@ const DashBoard = () => {
         </div>
 
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
+        {/* {showDeleteTrip && <DeleteModal onClose={() => setShowDeleteTrip(false)} description={tripToDelete?.Description} category={"Trip"} handleDeleteMenuShare={() => handleDeleteTrip(tripToDelete?.trip_id)} leftContext={new Date(tripToDelete?.Date).toLocaleDateString()} rightContext={tripToDelete?._count?.meals +" Meals"} title={tripToDelete?.tripName} />} */}
+        
       </div>
     );
   };
